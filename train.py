@@ -24,16 +24,18 @@ while True:
     for (top, right, bottom, left) in face_locations:
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
 
+        # Crop the face region
+        face_roi = frame[top:bottom, left:right]
+
+        # Save the cropped face as a reference photo
+        if cv2.waitKey(1) & 0xFF == ord('s'):
+            photo_path = os.path.join(save_folder, name + ".jpg")
+            cv2.imwrite(photo_path, face_roi)
+            print(f"Reference photo saved: {photo_path}")
+            break
+
     # Display the resulting frame
     cv2.imshow('Face Detection', frame)
-
-    # Check if the user pressed the 's' key to save a photo
-    if cv2.waitKey(1) & 0xFF == ord('s') and len(face_locations) > 0:
-        # Save the photo in the specified folder
-        photo_path = os.path.join(save_folder, name + ".jpg")
-        cv2.imwrite(photo_path, frame)
-        print(f"Reference photo saved: {photo_path}")
-        break
 
 # Release the capture
 cap.release()
