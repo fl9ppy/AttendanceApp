@@ -3,7 +3,7 @@ import face_recognition
 import os
 
 # Variables
-save_folder = "ReferencePhotos"
+save_folder = "StudentPhotos"
 name = input("Enter your name: ")
 
 # Create the folder if it doesn't exist
