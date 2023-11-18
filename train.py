@@ -28,7 +28,8 @@ while True:
         face_roi = frame[top:bottom, left:right]
 
         # Save the cropped face as a reference photo
-        if cv2.waitKey(1) & 0xFF == ord('s'):
+        key = cv2.waitkey(1)
+        if key == ord('s'):
             photo_path = os.path.join(save_folder, name + ".jpg")
             cv2.imwrite(photo_path, face_roi)
             print(f"Reference photo saved: {photo_path}")
