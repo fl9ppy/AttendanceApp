@@ -33,7 +33,7 @@ while True:
             photo_path = os.path.join(save_folder, name + ".jpg")
             cv2.imwrite(photo_path, face_roi)
             print(f"Reference photo saved: {photo_path}")
-            break
+            cap.close()
 
     # Display the resulting frame
     cv2.imshow('Face Detection', frame)
