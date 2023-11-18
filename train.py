@@ -36,10 +36,6 @@ while True:
             photo_path = os.path.join(save_folder, name + ".jpg")
             cv2.imwrite(photo_path, face_roi)
             print(f"Reference photo saved: {photo_path}")
-            break
-        break
-    break
-
-# Release the capture
-cap.release()
-cv2.destroyAllWindows()
+            cv2.destroyAllWindows()
+            cap.release()
+            exit(0)
