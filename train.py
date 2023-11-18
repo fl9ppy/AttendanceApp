@@ -27,17 +27,20 @@ while True:
         # Crop the face region
         face_roi = frame[top:bottom, left:right]
 
-        # Save the cropped face as a reference photo
+        # Display the resulting frame
+        cv2.imshow('Face Detection', frame)
+
+        # Save the cropped face as a reference photo when the 's' key is pressed
         key = cv2.waitKey(1)
         if key == ord('s'):
             photo_path = os.path.join(save_folder, name + ".jpg")
             cv2.imwrite(photo_path, face_roi)
             print(f"Reference photo saved: {photo_path}")
-            console.log(key)
             break
 
-    # Display the resulting frame
-    cv2.imshow('Face Detection', frame)
+    # Check for the 'q' key to exit the loop
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
 # Release the capture
 cap.release()
