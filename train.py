@@ -37,10 +37,7 @@ while True:
             cv2.imwrite(photo_path, face_roi)
             print(f"Reference photo saved: {photo_path}")
             break
-
-    # Check for the 'q' key to exit the loop
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    break
 
 # Release the capture
 cap.release()
