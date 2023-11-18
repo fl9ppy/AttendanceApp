@@ -37,6 +37,7 @@ while True:
             cv2.imwrite(photo_path, face_roi)
             print(f"Reference photo saved: {photo_path}")
             break
+        break
     break
 
 # Release the capture
