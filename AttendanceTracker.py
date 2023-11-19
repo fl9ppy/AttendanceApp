@@ -6,6 +6,8 @@ import numpy as np
 import face_recognition
 import cv2
 import threading
+import attendance_uploader
+import requests
 
 class FaceRecognizer:
     def __init__(self, known_faces_folder='StudentPhotos'):
@@ -47,26 +49,27 @@ class FaceRecognizer:
 
         return known_face_encodings, known_face_names
         
-    def save_attendance(self):
+#    def save_attendance(self):
         # Check if a class file and attendance directory are chosen
-        if not self.class_names or not self.attendance_directory:
-            messagebox.showwarning("Warning", "Please choose a class file and attendance directory first.")
-            return
+#        if not self.class_names or not self.attendance_directory:
+#            messagebox.showwarning("Warning", "Please choose a class file and attendance directory first.")
+#            return
 
-        attendance_data = {
-            "class_names": self.class_names,
-            "attendance_dict": self.attendance_dict
-        }
+ #       attendance_data = {
+  #          "class_names": self.class_names,
+   #         "attendance_dict": self.attendance_dict
+    #    }
 
-        try:
-            response = requests.post("http://localhost:5001/upload_attendance", json=attendance_data)
-            if response.status_code == 200:
-                messagebox.showinfo("Attendance Uploaded", "Attendance data successfully uploaded.")
-            else:
-                messagebox.showerror("Error", "Failed to upload attendance data.")
-        except Exception as e:
-            print(f"Error: {e}")
-            messagebox.showerror("Error", "Failed to upload attendance data.")
+     #   try:
+      #      response = requests.post("http://localhost:5001/upload_attendance", json=attendance_data)
+          #  print(status_code)
+           # if response.status_code == 200:
+            #    messagebox.showinfo("Attendance Uploaded", "Attendance data successfully uploaded.")
+            #else:
+             #   messagebox.showerror("Error", "Failed to upload attendance data.")
+    #    except Exception as e:
+     #       print(f"Error: {e}")
+      #      messagebox.showerror("Error", "Failed to upload attendance data.")
 
     def recognize_faces_in_camera(self, attendance_app):
         # Initialize the webcam
@@ -250,28 +253,27 @@ class AttendanceApp:
             else:
                 messagebox.showinfo("Unknown", "Unknown face detected, not marking attendance.")
 
+            
     def save_attendance(self):
         # Check if a class file and attendance directory are chosen
         if not self.class_names or not self.attendance_directory:
             messagebox.showwarning("Warning", "Please choose a class file and attendance directory first.")
             return
 
-        # Iterate over each student and save/update attendance
-        for student_name, attendance_data in self.attendance_dict.items():
-            # Generate the attendance file name using the student name and directory
-            attendance_file_name = os.path.join(self.attendance_directory, f"Attendance_{student_name}.txt")
+        attendance_data = {
+            "class_names": self.class_names,
+            "attendance_dict": self.attendance_dict
+        }
 
-            # Save updated attendance information to the file
-            with open(attendance_file_name, "a") as file:
-                # Add new line for each presence
-                for new_date in attendance_data["Present"]:
-                    file.write(f"- Present:\n    - {new_date}\n")
-
-                # Add new line for each absence
-                for new_date in attendance_data["Absent"]:
-                    file.write(f"- Absent:\n    - {new_date}\n")
-
-        messagebox.showinfo("Attendance Saved", "Attendance files updated for each student.")
+        try:
+            response = requests.post("http://localhost:5001/upload_attendance/Attendance_Calinescu_Adrian", json=attendance_data, headers={'Content-Type': 'application/json'})
+            if response.status_code == 200:
+                messagebox.showinfo("Attendance Uploaded", "Attendance data successfully uploaded.")
+            else:
+                messagebox.showerror("Error", "Failed to upload attendance data.")
+        except Exception as e:
+            print(f"Error: {e}")
+            messagebox.showerror("Error", "Failed to upload attendance data.")
 
     def finish_class(self):
         # Check if a class file is chosen
