@@ -2,3 +2,4 @@ dlib
 opencv-python
 face-recognition
 numpy
+ttkthemes
