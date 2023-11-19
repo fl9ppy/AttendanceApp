@@ -46,6 +46,27 @@ class FaceRecognizer:
                     print(f"No face found in {filename}")
 
         return known_face_encodings, known_face_names
+        
+    def save_attendance(self):
+        # Check if a class file and attendance directory are chosen
+        if not self.class_names or not self.attendance_directory:
+            messagebox.showwarning("Warning", "Please choose a class file and attendance directory first.")
+            return
+
+        attendance_data = {
+            "class_names": self.class_names,
+            "attendance_dict": self.attendance_dict
+        }
+
+        try:
+            response = requests.post("http://localhost:5001/upload_attendance", json=attendance_data)
+            if response.status_code == 200:
+                messagebox.showinfo("Attendance Uploaded", "Attendance data successfully uploaded.")
+            else:
+                messagebox.showerror("Error", "Failed to upload attendance data.")
+        except Exception as e:
+            print(f"Error: {e}")
+            messagebox.showerror("Error", "Failed to upload attendance data.")
 
     def recognize_faces_in_camera(self, attendance_app):
         # Initialize the webcam
